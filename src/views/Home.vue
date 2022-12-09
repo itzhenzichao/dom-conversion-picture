@@ -7,25 +7,35 @@
             <el-button type="danger" round size="small" @click="init"
               >初始化</el-button
             >
-            <el-button type="success" round size="small" @click="createPicture"
+            <el-button type="success" :loading="loading" :disabled="!isShowDom" round size="small" @click="createPicture"
               >下载图片</el-button
             >
           </el-col>
-          <el-col :span="8"></el-col>
-          <el-col :span="8"></el-col>
+          <el-col :span="8"> </el-col>
+          <el-col :span="8" class="about">
+            <el-popover
+              placement="bottom"
+              title="联系方式"
+              width="150"
+              trigger="click"
+              content="itzhenzichao@163.com">
+              <a class="email" href="mailto:itzhenzichao@163.com">itzhenzichao@163.com</a>
+                <el-button slot="reference" type="info" icon="el-icon-message" circle></el-button>
+            </el-popover>
+          </el-col>
         </el-row>
       </el-header>
       <el-container width="300px">
         <el-aside class="toolbar">
-          <el-form ref="form" :model="configuration" label-width="80px">
-            <el-form-item label="宽度:">
+          <el-form ref="form" :model="configuration" label-width="80px" :rules="rules">
+            <el-form-item label="宽度:" prop="width">
               <el-input
                 v-model="configuration.width"
                 clearable
                 placeholder="图片宽度"
               ></el-input>
             </el-form-item>
-            <el-form-item label="高度:">
+            <el-form-item label="高度:" prop="height">
               <el-input
                 v-model="configuration.height"
                 clearable
@@ -63,6 +73,16 @@
                 v-model="configuration.text_color"
               ></el-color-picker>
             </el-form-item>
+            <el-form-item label="文字粗细:">
+              <el-select v-model="configuration.weight" filterable placeholder="请选择">
+                <el-option
+                  v-for="item in weightList"
+                  :key="item"
+                  :label="item"
+                  :value="item">
+                </el-option>
+              </el-select>
+            </el-form-item>
           </el-form>
         </el-aside>
         <el-main class="picture-area">
@@ -74,6 +94,7 @@
                 width: configuration.width + 'px',
                 height: configuration.height + 'px',
                 lineHeight: configuration.height + 'px',
+                fontWeight:  configuration.weight,
                 backgroundColor: configuration.color,
                 color: configuration.text_color,
                 overflow: 'hidden',
@@ -95,6 +116,13 @@ import html2canvas from "html2canvas";
 export default {
   name: "Home",
   data() {
+    var validate = (rule, value, callback) => {
+      if (!(/^\+?[1-9][0-9]*$/.test(Number(value)))) {
+        callback(new Error('请输入正整数'));
+      } else {
+        callback();
+      }
+    }
     return {
       configuration: {},
       predefineColors: [
@@ -106,6 +134,16 @@ export default {
         "#1e90ff",
         "#c71585",
       ],
+      weightList:[100,200,300,400,500,600,700,800,900],
+      rules: {
+          width: [
+            { validator: validate, trigger: 'blur' }
+          ],
+          height: [
+            { validator: validate, trigger: 'blur' }
+          ],
+      },
+      loading: false
     };
   },
   methods: {
@@ -121,12 +159,14 @@ export default {
         height: "100",
         color: "#ff8c00",
         text: "Good",
+        weight: 700,
         text_color: "#ffffff",
       };
     },
     createPicture() {
       let _this = this;
       let options = this.handleCanvasOptions(this.configuration);
+      _this.loading = true;
       html2canvas(document.getElementById("diy-dom"), options)
         .then(function (canvas) {
           canvas.style.display = "none";
@@ -161,6 +201,7 @@ export default {
       document.body.removeChild(aDom); // 移除刚才插入的 a 标签
       document.body.removeChild(canvasDom); // 移除刚才插入的 a 标签
       URL.revokeObjectURL(href); // 释放刚才生成的 UTF-16 字符串
+      this.loading = false;
     },
   },
   components: {},
@@ -186,9 +227,22 @@ export default {
   // height: 100vh;
   overflow: hidden;
 }
+.email {
+  text-decoration: none;
+  color: #E6A23C;
+}
 .editor-header {
   border-bottom: 1px solid #dcdfe6;
   padding: 10px 0;
+  .el-row {
+    display: flex;
+    align-items: center;
+  }
+  .about {
+    float: right;
+    text-align: right;
+    padding-right: 20px;
+  }
 }
 .toolbar {
   height: calc(100vh - 60px);
