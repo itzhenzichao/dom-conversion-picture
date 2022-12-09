@@ -3,7 +3,7 @@
     <el-container>
       <el-header class="editor-header" height="60px">
         <el-row>
-          <el-col :span="8">
+          <el-col :span="8" class="editor-btns">
             <el-button type="danger" round size="small" @click="init"
               >初始化</el-button
             >
@@ -27,7 +27,7 @@
       </el-header>
       <el-container width="300px">
         <el-aside class="toolbar">
-          <el-form ref="form" :model="configuration" label-width="80px" :rules="rules">
+          <el-form ref="form" :model="configuration" label-width="84px" :rules="rules">
             <el-form-item label="宽度:" prop="width">
               <el-input
                 v-model="configuration.width"
@@ -238,6 +238,10 @@ export default {
     display: flex;
     align-items: center;
   }
+  .editor-btns {
+    text-align: left;
+    padding-left: 14px;
+  }
   .about {
     float: right;
     text-align: right;
@@ -251,5 +255,10 @@ export default {
 .picture-area {
   background-color: #f5f5f5;
   height: calc(100vh - 60px);
+}
+.el-form-item {
+  :deep label {
+    font-weight: bold;
+  }
 }
 </style>
