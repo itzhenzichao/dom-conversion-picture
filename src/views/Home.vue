@@ -7,7 +7,13 @@
             <el-button type="danger" round size="small" @click="init"
               >初始化</el-button
             >
-            <el-button type="success" :loading="loading" :disabled="!isShowDom" round size="small" @click="createPicture"
+            <el-button
+              type="success"
+              :loading="loading"
+              :disabled="!isShowDom"
+              round
+              size="small"
+              @click="createPicture"
               >下载图片</el-button
             >
           </el-col>
@@ -18,16 +24,29 @@
               title="联系方式"
               width="150"
               trigger="click"
-              content="itzhenzichao@163.com">
-              <a class="email" href="mailto:itzhenzichao@163.com">itzhenzichao@163.com</a>
-                <el-button slot="reference" type="info" icon="el-icon-message" circle></el-button>
+              content="itzhenzichao@163.com"
+            >
+              <a class="email" href="mailto:itzhenzichao@163.com"
+                >itzhenzichao@163.com</a
+              >
+              <el-button
+                slot="reference"
+                type="info"
+                icon="el-icon-message"
+                circle
+              ></el-button>
             </el-popover>
           </el-col>
         </el-row>
       </el-header>
       <el-container width="300px">
         <el-aside class="toolbar">
-          <el-form ref="form" :model="configuration" label-width="84px" :rules="rules">
+          <el-form
+            ref="form"
+            :model="configuration"
+            label-width="84px"
+            :rules="rules"
+          >
             <el-form-item label="宽度:" prop="width">
               <el-input
                 v-model="configuration.width"
@@ -74,12 +93,17 @@
               ></el-color-picker>
             </el-form-item>
             <el-form-item label="文字粗细:">
-              <el-select v-model="configuration.weight" filterable placeholder="请选择">
+              <el-select
+                v-model="configuration.weight"
+                filterable
+                placeholder="请选择"
+              >
                 <el-option
                   v-for="item in weightList"
                   :key="item"
                   :label="item"
-                  :value="item">
+                  :value="item"
+                >
                 </el-option>
               </el-select>
             </el-form-item>
@@ -94,7 +118,7 @@
                 width: configuration.width + 'px',
                 height: configuration.height + 'px',
                 lineHeight: configuration.height + 'px',
-                fontWeight:  configuration.weight,
+                fontWeight: configuration.weight,
                 backgroundColor: configuration.color,
                 color: configuration.text_color,
                 overflow: 'hidden',
@@ -117,12 +141,12 @@ export default {
   name: "Home",
   data() {
     var validate = (rule, value, callback) => {
-      if (!(/^\+?[1-9][0-9]*$/.test(Number(value)))) {
-        callback(new Error('请输入正整数'));
+      if (!/^\+?[1-9][0-9]*$/.test(Number(value))) {
+        callback(new Error("请输入正整数"));
       } else {
         callback();
       }
-    }
+    };
     return {
       configuration: {},
       predefineColors: [
@@ -134,22 +158,19 @@ export default {
         "#1e90ff",
         "#c71585",
       ],
-      weightList:[100,200,300,400,500,600,700,800,900],
+      weightList: [100, 200, 300, 400, 500, 600, 700, 800, 900],
       rules: {
-          width: [
-            { validator: validate, trigger: 'blur' }
-          ],
-          height: [
-            { validator: validate, trigger: 'blur' }
-          ],
+        width: [{ validator: validate, trigger: "blur" }],
+        height: [{ validator: validate, trigger: "blur" }],
       },
-      loading: false
+      loading: false,
     };
   },
   methods: {
     handleCanvasOptions(config) {
       let options = {
         backgroundColor: config.color,
+        scale: 1,
       };
       return options;
     },
@@ -229,7 +250,7 @@ export default {
 }
 .email {
   text-decoration: none;
-  color: #E6A23C;
+  color: #e6a23c;
 }
 .editor-header {
   border-bottom: 1px solid #dcdfe6;
