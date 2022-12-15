@@ -212,7 +212,8 @@ export default {
       }
 
       // 通过以下方式将以上变量生成文件对象，三个参数分别为文件内容、文件名、文件类型
-      var file = new File([u8arr], "filename", { type: mime });
+      let fileName = `file${new Date().getTime()}`;
+      var file = new File([u8arr], fileName, { type: mime });
       var aDom = document.createElement("a"); // 创建一个 a 标签
       aDom.download = file.name; // 设置文件名
       let href = URL.createObjectURL(file); // 将file对象转成 UTF-16 字符串
