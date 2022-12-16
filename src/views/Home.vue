@@ -87,6 +87,21 @@
                 clearable
               ></el-input>
             </el-form-item>
+            <el-form-item label="字号:">
+              <el-select
+                v-model="configuration.font_size"
+                filterable
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in fontSizeList"
+                  :key="item"
+                  :label="item"
+                  :value="item"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="文字颜色:">
               <el-color-picker
                 v-model="configuration.text_color"
@@ -122,6 +137,7 @@
                 backgroundColor: configuration.color,
                 color: configuration.text_color,
                 overflow: 'hidden',
+                fontSize: configuration.font_size + 'px',
               }"
             >
               {{ configuration.text }}
@@ -159,6 +175,7 @@ export default {
         "#c71585",
       ],
       weightList: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+      fontSizeList: [14, 16, 18, 24, 36, 48, 64, 72],
       rules: {
         width: [{ validator: validate, trigger: "blur" }],
         height: [{ validator: validate, trigger: "blur" }],
@@ -182,6 +199,7 @@ export default {
         text: "Good",
         weight: 700,
         text_color: "#ffffff",
+        font_size: 24,
       };
     },
     createPicture() {
