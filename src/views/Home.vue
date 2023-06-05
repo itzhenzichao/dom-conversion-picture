@@ -228,9 +228,9 @@ export default {
       while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
       }
-
+      let { width, height } = this.configuration;
       // 通过以下方式将以上变量生成文件对象，三个参数分别为文件内容、文件名、文件类型
-      let fileName = `file${new Date().getTime()}`;
+      let fileName = `${width}_${height}.png`;
       var file = new File([u8arr], fileName, { type: mime });
       var aDom = document.createElement("a"); // 创建一个 a 标签
       aDom.download = file.name; // 设置文件名
